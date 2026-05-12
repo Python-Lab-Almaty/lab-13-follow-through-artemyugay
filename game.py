@@ -162,7 +162,15 @@ lives = 3
 # ----------------------------
 vx = 3
 vy = 3
+boost = 1
 
+def press_shift():
+    global boost
+    boost = 2
+
+def release_shift():
+    global boost
+    boost = 1
 # ----------------------------
 # 🟢 РЕЖИМ
 # ----------------------------
@@ -307,56 +315,25 @@ def check_collision():
 # ----------------------------
 def up():
     global steps
-    hero.sety(hero.ycor() + vy)
+    # Используем forward вместо sety для задания 3.2
+    # Умножаем на boost для задания 3.1
+    hero.forward(vy * boost) 
     steps += 1
-    
-    log.append({
-        "event": "move",
-        "direction": "up",
-        "x": hero.xcor(),
-        "y": hero.ycor(),
-        "time": time.time()
-    })
+    log.append({"event": "move", "direction": "forward", "x": hero.xcor(), "y": hero.ycor(), "time": time.time()})
 
 def down():
     global steps
-    hero.sety(hero.ycor() - vy)
+    hero.backward(vy * boost)
     steps += 1
-    
-    log.append({
-        "event": "move",
-        "direction": "down",
-        "x": hero.xcor(),
-        "y": hero.ycor(),
-        "time": time.time()
-    })
+    log.append({"event": "move", "direction": "backward", "x": hero.xcor(), "y": hero.ycor(), "time": time.time()})
 
 def left():
-    global steps
-    hero.setx(hero.xcor() - vx)
-    steps += 1
-    
-    log.append({
-        "event": "move",
-        "direction": "left",
-        "x": hero.xcor(),
-        "y": hero.ycor(),
-        "time": time.time()
-    })
+    # Поворот влево на 10 градусов для плавности (3.2)
+    hero.left(10)
 
 def right():
-    global steps
-    hero.setx(hero.xcor() + vx)
-    steps += 1
-    
-    log.append({
-        "event": "move",
-        "direction": "right",
-        "x": hero.xcor(),
-        "y": hero.ycor(),
-        "time": time.time()
-    })
-
+    # Поворот вправо на 10 градусов для плавности (3.2)
+    hero.right(10)
 def reset_session():
     clear_session(student_name)
     print("🔄 Сессия сброшена. Перезапустите игру.")
@@ -371,7 +348,15 @@ screen.onkey(down, "s")
 screen.onkey(left, "a")
 screen.onkey(right, "d")
 screen.onkey(reset_session, "r")
+# Привязываем функции к стрелкам
+screen.onkey(up, "Up")
+screen.onkey(down, "Down")
+screen.onkey(left, "Left")
+screen.onkey(right, "Right")
 
+# Привязываем ускорение к Шифту (Задание 3.1)
+screen.onkeypress(press_shift, "Shift_L")
+screen.onkeyrelease(release_shift, "Shift_L")
 # ----------------------------
 # 🟢 ОСНОВНОЙ ЦИКЛ
 # ----------------------------
