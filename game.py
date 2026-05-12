@@ -422,6 +422,10 @@ while True:
         print(f"🟢 Теперь будут появляться препятствия!")
         going_forward = False
         hero.color("yellow")
+        import sys
+        sys.stdout.write('\a')
+        sys.stdout.flush()
+        print("🔔 [SOUND] Beep!")
         log.append({
             "event": "reached_goal_B",
             "x": hero.xcor(),
