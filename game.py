@@ -156,7 +156,7 @@ dynamic_obstacles = []
 # ----------------------------
 steps = 0
 penalties = 0
-
+lives = 3
 # ----------------------------
 # 🟢 СКОРОСТЬ
 # ----------------------------
@@ -271,7 +271,7 @@ def draw_all():
     score_drawer.goto(0, -HEIGHT//2 + 40)
     score = steps - penalties
     score_drawer.clear()
-    score_drawer.write(f"Steps: {steps} | Penalties: {penalties} | Score: {score}",
+    score_drawer.write(f"Steps: {steps} | Penalties: {penalties} | Score: {score} | lives: {lives}",
                        align="center", font=("Arial", 16, "bold"))
     
     screen.update()
